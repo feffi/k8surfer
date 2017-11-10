@@ -1,6 +1,23 @@
+# Created by https://www.gitignore.io/api/git,packer,terraform
+
+### Git ###
+*.orig
+
+### Packer ###
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+
+### Terraform ###
 # Compiled files
 *.tfstate
 *.tfstate.backup
 
 # Module directory
 .terraform/
+
+### Terraform Patch ###
+*.tfvars
+# End of https://www.gitignore.io/api/git,packer,terraform
