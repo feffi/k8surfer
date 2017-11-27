@@ -21,3 +21,7 @@ packer_cache/
 ### Terraform Patch ###
 *.tfvars
 # End of https://www.gitignore.io/api/git,packer,terraform
+
+builds/
+settings.json
+k8surfer.sublime-project
