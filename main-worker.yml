@@ -1,0 +1,23 @@
+---
+- hosts: all
+  roles:
+    #- { role: ansible-centos-common, tags: [ 'common', 'utils' ] }
+    #- { role: ansible-selinux, tags: [ 'common', 'hardening' ] }
+    #- { role: ansible-sysctl, tags: [ 'common', 'config' ] }
+    #- { role: ansible-docker, tags: [ 'docker' ] }
+    #- { role: ansible-k8s, tags: [ 'k8s' ] }
+    # ----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+#- import_playbook: playbooks/utilities.yaml
+#- import_playbook: playbooks/selinux.yaml
+#- import_playbook: playbooks/update.yaml
+#- import_playbook: playbooks/groups.yaml
+#- import_playbook: playbooks/checks.yaml
+#- import_playbook: playbooks/docker.yaml
+#- import_playbook: playbooks/sysctl.yaml
+#- import_playbook: playbooks/k8s.yaml
+#- import_playbook: playbooks/etcd.yaml
+#- include: playbooks/utilities.yaml

@@ -1,0 +1,19 @@
+---
+# apt-get install python-lxml
+#- src: cmprescott.xml # XML manipulation library, NOT a role
+#- src: yatesr.timezone
+#- src: resmo.ntp
+#- src: mattwillsher.sshd
+#- src: franklinkim.users
+#- src: franklinkim.sudo
+#- src: franklinkim.ufw
+#- src: jnv.unattended-upgrades
+#- src: Yannik.enable-standard-cronjobs
+#- src: git+https://git.openstack.org/openstack/openstack-ansible-security
+#- src: juju4.ipv6
+#- src: staenker.apt-sources-baseline
+#- src: AttestationLegale.apt-sources
+#- src: tersmitten.locales
+#- src: manala.ohmyzsh
+#- src: gronke.dhparam
+#- src: Ginsys.nullmailer
