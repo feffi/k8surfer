@@ -25,3 +25,4 @@ packer_cache/
 builds/
 settings.json
 k8surfer.sublime-project
+credentials.yml
