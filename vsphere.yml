@@ -3,6 +3,6 @@ clouds:
   vsphere:
     type: vsphere
     auth-types: [userpass]
-    endpoint: vsphere.power.lab
+    endpoint: 10.1.1.174
     regions:
       esx.power.lab: {}
