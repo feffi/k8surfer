@@ -1,0 +1,58 @@
+# This is an example of an OpenShift-Ansible host inventory for a cluster
+# with natively hosted, containerized GlusterFS storage for both general
+# application use and a natively hosted Docker registry. It will also create a
+# StorageClass for the general storage.
+#
+# This inventory may be used with the deploy_cluster.yml playbook to deploy a new
+# cluster with GlusterFS storage.
+#
+# This inventory may also be used with openshift-glusterfs/config.yml to
+# deploy GlusterFS storage on an existing cluster. With this playbook, the
+# registry backend volume will be created but the administrator must then
+# either deploy a hosted registry or change an existing hosted registry to use
+# that volume.
+#
+# There are additional configuration parameters that can be specified to
+# control the deployment and state of a GlusterFS cluster. Please see the
+# documentation in playbooks/openshift-glusterfs/README.md and
+# roles/openshift_storage_glusterfs/README.md for additional details.
+[OSEv3:vars]
+ansible_ssh_user=root
+openshift_deployment_type=origin
+# Specify that we want to use GlusterFS storage for a hosted registry
+openshift_hosted_registry_storage_kind=glusterfs
+containerized=true
+openshift_hosted_registry_replicas=3
+openshift_hosted_registry_storage_volume_size=10Gi
+# enable ntp on masters to ensure proper failover
+openshift_clock_enabled=true
+# apply updated node defaults
+openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['90'], 'image-gc-low-threshold': ['80']}
+
+[OSEv3:children]
+masters
+nodes
+etcd
+# Specify there will be GlusterFS nodes
+glusterfs
+glusterfs_registry
+
+[masters]
+openshift-master-0[1:1] openshift_schedulable=true openshift_node_labels="{'region': 'infra'}"
+
+[nodes]
+openshift-master-0[1:1] openshift_schedulable=true openshift_node_labels="{'region': 'infra'}"
+openshift-node-0[1:1] openshift_schedulable=true openshift_node_labels="{'region': 'infra'}"
+
+[etcd]
+openshift-master-0[1:1]
+
+# Specify load balancer host
+[lb]
+#lb.example.com
+
+[glusterfs]
+openshift-node-0[1:1] glusterfs_devices='[ "/dev/sdb" ]'
+
+[glusterfs_registry]
+openshift-master-0[1:1] glusterfs_devices='[ "/dev/sdb" ]'
