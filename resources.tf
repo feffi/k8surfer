@@ -5,7 +5,7 @@ resource "vsphere_folder" "vsphere_folder" {
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
-resource "vsphere_virtual_machine" "vm-master" {
+resource "vsphere_virtual_machine" "k8s-master" {
   count = "${var.master_count}"
   datastore_id = "${data.vsphere_datastore.datastore.id}"
   resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
@@ -59,14 +59,14 @@ resource "vsphere_virtual_machine" "vm-master" {
   }
 }
 
-resource "vsphere_virtual_machine" "vm-node" {
-  count = "${var.node_count}"
+resource "vsphere_virtual_machine" "k8s-worker" {
+  count = "${var.worker_count}"
   datastore_id = "${data.vsphere_datastore.datastore.id}"
   resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
   guest_id = "${data.vsphere_virtual_machine.template.guest_id}" # Pointer to a template to clone into
   scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}" # Pointer to a template to clone into
   folder = "${var.vsphere_folder}"
-  name   = "${var.node_name}-0${count.index + 1}"
+  name   = "${var.worker_name}-0${count.index + 1}"
   num_cpus = 2
   cpu_hot_add_enabled = true
   cpu_hot_remove_enabled = true
@@ -74,14 +74,14 @@ resource "vsphere_virtual_machine" "vm-node" {
   memory_hot_add_enabled = true
 
   disk {
-    name             = "${var.node_name}-0${count.index + 1}.vmdk"
+    name             = "${var.worker_name}-0${count.index + 1}.vmdk"
     size             = "${data.vsphere_virtual_machine.template.disks.0.size}"
     eagerly_scrub    = "${data.vsphere_virtual_machine.template.disks.0.eagerly_scrub}"
     thin_provisioned = "${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}"
   }
 
   disk {
-    name             = "${var.node_name}-glusterfs-0${count.index + 1}.vmdk"
+    name             = "${var.worker_name}-glusterfs-0${count.index + 1}.vmdk"
     size             = 10
     thin_provisioned = true
     unit_number = 1
@@ -101,12 +101,12 @@ resource "vsphere_virtual_machine" "vm-node" {
       dns_server_list = ["${var.dns_server}"]
 
       linux_options {
-        host_name = "${var.node_name}-0${count.index + 1}"
+        host_name = "${var.worker_name}-0${count.index + 1}"
         domain    = "${var.dns_domain}"
       }
 
       network_interface {
-        ipv4_address = "${var.network_node_ip_prefix}${10 + count.index}"
+        ipv4_address = "${var.network_worker_ip_prefix}${10 + count.index}"
         ipv4_netmask = "${var.network_netmask}"
       }
     }
@@ -126,13 +126,13 @@ resource "dns_a_record_set" "dns-master" {
 }
 
 # Create a DNS A record set
-resource "dns_a_record_set" "dns-node" {
-  count = "${var.node_count}"
-  name  = "${var.node_name}-0${count.index + 1}"
+resource "dns_a_record_set" "dns-worker" {
+  count = "${var.worker_count}"
+  name  = "${var.worker_name}-0${count.index + 1}"
   zone  = "${var.dns_domain}."
   # vsphere_virtual_machine.vms.*.access_ip_v4
   addresses = [
-    "${var.network_node_ip_prefix}${10 + count.index}"
+    "${var.network_worker_ip_prefix}${10 + count.index}"
   ]
   ttl = "${var.dns_ttl}"
 }
