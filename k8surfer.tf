@@ -100,7 +100,7 @@ data "vsphere_datacenter" "dc" {
 }
 
 resource "vsphere_folder" "folder" {
-  path          = "${var.folder}"
+  path          = "${var.vsphere["folder"]}"
   type          = "vm"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
