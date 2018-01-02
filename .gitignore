@@ -1,4 +1,8 @@
-# Created by https://www.gitignore.io/api/git,packer,terraform
+# Created by https://www.gitignore.io/api/git,packer,terraform,ansible
+
+### Ansible ###
+*.retry
+hosts
 
 ### Git ###
 *.orig
@@ -6,15 +10,18 @@
 ### Packer ###
 # Cache objects
 packer_cache/
+output-*/
 
 # For built boxes
 *.box
+
+# For build artifacts
+*.vdi
 
 ### Terraform ###
 # Compiled files
 *.tfstate
 *.tfstate.backup
-secrets.tfvars
 
 # Module directory
 .terraform/
@@ -22,9 +29,4 @@ secrets.tfvars
 ### Terraform Patch ###
 *.tfvars
 
-# End of https://www.gitignore.io/api/git,packer,terraform
-
-builds/
-settings.json
-k8surfer.sublime-project
-credentials.yml
+# End of https://www.gitignore.io/api/git,packer,terraform,ansible
