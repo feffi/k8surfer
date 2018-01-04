@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+    - host: echo.lab.kubeland.cc
+      http:
+        paths:
+          - backend:
+              serviceName: echoserver
+              servicePort: 8080
+            path: /
+    - host: git.lab.kubeland.cc
+      http:
+        paths:
+          - backend:
+              serviceName: git-gitlab
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - "echo.lab.kubeland.cc"
+      secretName: echoserver-tls
+    - hosts:
+        - "git.lab.kubeland.cc"
+      secretName: git-tls
