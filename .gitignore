@@ -6,6 +6,7 @@ hosts
 
 ### Git ###
 *.orig
+TODO.md
 
 ### Packer ###
 # Cache objects
@@ -28,5 +29,8 @@ output-*/
 
 ### Terraform Patch ###
 *.tfvars
+
+### custom secrets ###
+secrets
 
 # End of https://www.gitignore.io/api/git,packer,terraform,ansible
