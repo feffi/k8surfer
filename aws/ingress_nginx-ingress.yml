@@ -22,6 +22,14 @@ spec:
               serviceName: git-gitlab
               servicePort: 80
             path: /
+
+    - host: sonar.lab.kubeland.cc
+      http:
+        paths:
+          - backend:
+              serviceName: sonarqube-sonarqube
+              servicePort: 9000
+            path: /
   tls:
     - hosts:
         - "echo.lab.kubeland.cc"
@@ -29,3 +37,6 @@ spec:
     - hosts:
         - "git.lab.kubeland.cc"
       secretName: git-tls
+    - hosts:
+        - "sonar.lab.kubeland.cc"
+      secretName: sonar-tls
