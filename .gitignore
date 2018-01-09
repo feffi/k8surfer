@@ -30,7 +30,8 @@ output-*/
 ### Terraform Patch ###
 *.tfvars
 
-### custom secrets ###
+### custom ###
 secrets
+helm.gitlab.io
 
 # End of https://www.gitignore.io/api/git,packer,terraform,ansible
